@@ -21,15 +21,13 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Имя</th>
-                    <th scope="col">Описание</th>
                     <th scope="col">Дата создания</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="candidate: ${candidates}">
                     <td th:text="${candidate.id}" />
-                    <td th:text="${candidate.name}" />
-                    <td th:text="${candidate.description}"/>
+                    <td><a th:text="${candidate.name}" th:href="@{/candidates/{candidateId}(candidateId=${candidate.id})}"></a></td>
                     <td th:text="${candidate.creationDate}"/>
                 </tr>
                 </tbody>
