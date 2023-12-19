@@ -20,9 +20,9 @@ public class MemoryCandidateRepository implements CandidateRepository {
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
 
     private MemoryCandidateRepository() {
-        save(new Candidate(0, "Igor", "Junior Java developer", LocalDateTime.now()));
-        save(new Candidate(0, "Ivan", "Senior Java developer", LocalDateTime.now()));
-        save(new Candidate(0, "Dmitriy", "QA java tester", LocalDateTime.now()));
+        save(new Candidate(0, "Igor", "Junior Java developer", LocalDateTime.now(), true));
+        save(new Candidate(0, "Ivan", "Senior Java developer", LocalDateTime.now(), false));
+        save(new Candidate(0, "Dmitriy", "QA java tester", LocalDateTime.now(), true));
     }
 
     @Override
@@ -41,7 +41,7 @@ public class MemoryCandidateRepository implements CandidateRepository {
     public boolean update(Candidate candidate) {
         return candidates.computeIfPresent(candidate.getId(),
                 (id, old) -> new Candidate(old.getId(), candidate.getName(),
-                        candidate.getDescription(), candidate.getCreationDate())) != null;
+                        candidate.getDescription(), candidate.getCreationDate(), candidate.getVisible())) != null;
     }
 
     @Override
