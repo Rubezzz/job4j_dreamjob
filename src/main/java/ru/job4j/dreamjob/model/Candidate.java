@@ -10,16 +10,18 @@ public class Candidate {
     private String description;
     private LocalDateTime creationDate = LocalDateTime.now();
     private boolean visible;
+    private int cityId;
 
     public Candidate() {
     }
 
-    public Candidate(int id, String name, String description, LocalDateTime creationDate, boolean visible) {
+    public Candidate(int id, String name, String description, LocalDateTime creationDate, boolean visible, int cityId) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.creationDate = creationDate;
         this.visible = visible;
+        this.cityId = cityId;
     }
 
     public int getId() {
@@ -60,6 +62,14 @@ public class Candidate {
 
     public void setVisible(boolean visible) {
         this.visible = visible;
+    }
+
+    public int getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(int cityId) {
+        this.cityId = cityId;
     }
 
     @Override
