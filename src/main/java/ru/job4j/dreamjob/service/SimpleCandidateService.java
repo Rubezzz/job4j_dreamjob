@@ -2,6 +2,7 @@ package ru.job4j.dreamjob.service;
 
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Service;
+import ru.job4j.dreamjob.dto.FileDto;
 import ru.job4j.dreamjob.model.Candidate;
 import ru.job4j.dreamjob.repository.CandidateRepository;
 
@@ -13,24 +14,41 @@ import java.util.Optional;
 public class SimpleCandidateService implements CandidateService {
 
     private final CandidateRepository candidateRepository;
+    private final FileService fileService;
 
-    public SimpleCandidateService(CandidateRepository candidateRepository) {
+    public SimpleCandidateService(CandidateRepository candidateRepository, FileService fileService) {
         this.candidateRepository = candidateRepository;
+        this.fileService = fileService;
+    }
+
+    private void saveNewFile(Candidate candidate, FileDto image) {
+        var file = fileService.save(image);
+        candidate.setFileId(file.getId());
     }
 
     @Override
-    public Candidate save(Candidate candidate) {
+    public Candidate save(Candidate candidate, FileDto fileDto) {
+        saveNewFile(candidate, fileDto);
         return candidateRepository.save(candidate);
     }
 
     @Override
     public boolean deleteById(int id) {
+        findById(id).ifPresent(candidate -> fileService.deleteById(candidate.getFileId()));
         return candidateRepository.deleteById(id);
     }
 
     @Override
-    public boolean update(Candidate candidate) {
-        return candidateRepository.update(candidate);
+    public boolean update(Candidate candidate, FileDto image) {
+        var isNewFileEmpty = image.getContent().length == 0;
+        if (isNewFileEmpty) {
+            return candidateRepository.update(candidate);
+        }
+        var oldFileId = candidate.getFileId();
+        saveNewFile(candidate, image);
+        var isUpdated = candidateRepository.update(candidate);
+        fileService.deleteById(oldFileId);
+        return isUpdated;
     }
 
     @Override

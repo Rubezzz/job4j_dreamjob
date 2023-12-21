@@ -6,7 +6,6 @@ import ru.job4j.dreamjob.model.Candidate;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,9 +19,9 @@ public class MemoryCandidateRepository implements CandidateRepository {
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
 
     private MemoryCandidateRepository() {
-        save(new Candidate(0, "Igor", "Junior Java developer", LocalDateTime.now(), true, 0));
-        save(new Candidate(0, "Ivan", "Senior Java developer", LocalDateTime.now(), false, 1));
-        save(new Candidate(0, "Dmitriy", "QA java tester", LocalDateTime.now(), true, 2));
+        save(new Candidate(0, "Igor", "Junior Java developer", LocalDateTime.now(), true, 0, 0));
+        save(new Candidate(0, "Ivan", "Senior Java developer", LocalDateTime.now(), false, 1, 0));
+        save(new Candidate(0, "Dmitriy", "QA java tester", LocalDateTime.now(), true, 2, 0));
     }
 
     @Override
@@ -42,7 +41,7 @@ public class MemoryCandidateRepository implements CandidateRepository {
         return candidates.computeIfPresent(candidate.getId(),
                 (id, old) -> new Candidate(old.getId(), candidate.getName(),
                         candidate.getDescription(), candidate.getCreationDate(), candidate.getVisible(),
-                        candidate.getCityId())) != null;
+                        candidate.getCityId(), candidate.getFileId())) != null;
     }
 
     @Override

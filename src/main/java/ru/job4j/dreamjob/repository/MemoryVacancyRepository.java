@@ -6,7 +6,6 @@ import ru.job4j.dreamjob.model.Vacancy;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -21,12 +20,12 @@ public class MemoryVacancyRepository implements VacancyRepository {
     private final Map<Integer, Vacancy> vacancies = new ConcurrentHashMap<>();
 
     private MemoryVacancyRepository() {
-        save(new Vacancy(0, "Intern Java Developer", "Description", LocalDateTime.now(), true, 0));
-        save(new Vacancy(0, "Junior Java Developer", "Description", LocalDateTime.now(), false, 1));
-        save(new Vacancy(0, "Junior+ Java Developer", "Description", LocalDateTime.now(), true, 1));
-        save(new Vacancy(0, "Middle Java Developer", "Description", LocalDateTime.now(), false, 2));
-        save(new Vacancy(0, "Middle+ Java Developer", "Description", LocalDateTime.now(), true, 2));
-        save(new Vacancy(0, "Senior Java Developer", "Description", LocalDateTime.now(), true, 0));
+        save(new Vacancy(0, "Intern Java Developer", "Description", LocalDateTime.now(), true, 0, 0));
+        save(new Vacancy(0, "Junior Java Developer", "Description", LocalDateTime.now(), false, 1, 0));
+        save(new Vacancy(0, "Junior+ Java Developer", "Description", LocalDateTime.now(), true, 1, 0));
+        save(new Vacancy(0, "Middle Java Developer", "Description", LocalDateTime.now(), false, 2, 0));
+        save(new Vacancy(0, "Middle+ Java Developer", "Description", LocalDateTime.now(), true, 2, 0));
+        save(new Vacancy(0, "Senior Java Developer", "Description", LocalDateTime.now(), true, 0, 0));
     }
 
     @Override
@@ -46,7 +45,7 @@ public class MemoryVacancyRepository implements VacancyRepository {
         return vacancies.computeIfPresent(vacancy.getId(),
                 (id, oldVacancy) -> new Vacancy(oldVacancy.getId(), vacancy.getTitle(),
                         vacancy.getDescription(), vacancy.getCreationDate(), vacancy.getVisible(),
-                        vacancy.getCityId())) != null;
+                        vacancy.getCityId(), vacancy.getFileId())) != null;
     }
 
     @Override
