@@ -22,18 +22,8 @@ public class UserController {
         this.userService = userService;
     }
 
-    private void checkUser(Model model, HttpSession session) {
-        var user = (User) session.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setName("Гость");
-        }
-        model.addAttribute("user", user);
-    }
-
     @GetMapping("/register")
-    public String getRegistrationPage(Model model, HttpSession session) {
-        checkUser(model, session);
+    public String getRegistrationPage() {
         return "users/register";
     }
 
@@ -48,8 +38,7 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String getLoginPage(Model model, HttpSession session) {
-        checkUser(model, session);
+    public String getLoginPage() {
         return "users/login";
     }
 
